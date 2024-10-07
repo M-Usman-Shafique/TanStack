@@ -14,27 +14,33 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <h1>Welcome to the Home Page</h1>,
+      },
+      {
+        path: "/products",
+        element: <Products />,
+      },
+      {
+        path: "/products/:id",
+        element: <Product />,
+      },
+      {
+        path: "parallel",
+        element: <Parallel />,
+      },
+      {
+        path: "optimistic",
+        element: <Optimistic />,
+      },
+      {
+        path: "dependant",
+        element: <Dependant />,
+      },
+    ],
   },
-  {
-    path: "/products",
-    element: <Products />,
-  },
-  {
-    path: "/products/:id",
-    element: <Product />,
-  },
-  {
-    path: 'parallel',
-    element: <Parallel />,
-},
-{
-  path: 'optimistic',
-  element: <Optimistic />,
-},
-{
-  path: 'dependant',
-  element: <Dependant />,
-},
 ]);
 
 export const queryClient = new QueryClient({
