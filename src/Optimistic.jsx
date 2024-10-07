@@ -1,28 +1,32 @@
 import React from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "./main";
+import axios from "axios";
 
-export default function Optimistic() {
+const fetchPosts = async () => {
+  const response = await axios.get(
+    "http://localhost:3000/posts?_sort=id&_order=desc"
+  );
+  return response.data;
+};
 
-  const { data: posts } = useQuery({
-    queryKey: ["posts"],
-    queryFn: async () => {
-      const response = await fetch(
-        "http://localhost:3000/posts?_sort=id&_order=desc"
-      ).then((data) => data.json());
-      return response;
+const addPost = async (newPost) => {
+  return await axios.post("http://localhost:3000/posts", newPost, {
+    headers: {
+      "Content-Type": "application/json",
     },
   });
-  
+};
+
+
+export default function Optimistic() {
+  const { data: posts } = useQuery({
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+  });
+
   const { mutate, isError, isPending, variables } = useMutation({
-    mutationFn: (newProduct) =>
-      fetch("http://localhost:3000/posts", {
-        method: "POST",
-        body: JSON.stringify(newProduct),
-        headers: {
-          "content-type": "Application/json",
-        },
-      }),
+    mutationFn: addPost,
     onSuccess: async () => {
       return await queryClient.invalidateQueries({ queryKey: ["posts"] });
     },

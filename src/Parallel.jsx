@@ -12,13 +12,13 @@ const Parallel = () => {
   const [userIds, setUserIds] = React.useState([1]);
 
   // useQuery is a hook hence cannot be called inside a callback, rather it must be called inside react function component or react custom hook:
-
   // userIds.forEach((id) => {
   //   const userQuery = useQuery({
   //     queryKey: ["user", id],
   //     queryFn: fetchUser,
   //   });
   // });
+  
 
   // Parallel Queries:
   const userQueries = useQueries({
