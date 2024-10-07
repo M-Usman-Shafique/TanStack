@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "./main";
 
 export default function Optimistic() {
+
   const { data: posts } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
@@ -12,6 +13,7 @@ export default function Optimistic() {
       return response;
     },
   });
+  
   const { mutate, isError, isPending, variables } = useMutation({
     mutationFn: (newProduct) =>
       fetch("http://localhost:3000/posts", {
